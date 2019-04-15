@@ -6,4 +6,8 @@
     <RootNamespace>fhnw_p6_gateway</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MQTTnet" Version="2.8.5" />
+  </ItemGroup>
+
 </Project>
