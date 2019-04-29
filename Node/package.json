@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/stby4/fhnw-iot-gateway/issues"
   },
-  "homepage": "https://github.com/stby4/fhnw-iot-gateway#readme"
+  "homepage": "https://github.com/stby4/fhnw-iot-gateway#readme",
+  "dependencies": {
+    "@abandonware/noble": "^1.9.2-2"
+  }
 }
