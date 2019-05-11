@@ -45,7 +45,7 @@ class RXTX(object):
         '''
         Connect to the serial, send to ThingSpeak
         '''
-        u = self.init_lara(debug)
+        u = self.init_lara()
         # Initiate a serial connection
         arduino = serial.Serial('/dev/ttyACM0', 9600)
 
