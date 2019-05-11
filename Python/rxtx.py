@@ -40,12 +40,14 @@ def connect(debug=False):
             # read message from the Arduino
             raw_message = str(arduino.readline())
             message = raw_message.rstrip()
-            #prepare request
-            url = 'https://api.thingspeak.com/update?api_key={}&field1={}'.format(THING_SPEAK_KEY, message)
-            if debug:
-                print(url)
-            # send GET request
-            u.sendAT('AT+UHTTPC=0,1,"{}","/home/pi/res.html"\r\n'.format(url))
+
+            if '' != message and None != message:
+                #prepare request
+                url = 'https://api.thingspeak.com/update?api_key={}&field1={}'.format(THING_SPEAK_KEY, message)
+                if debug:
+                    print(url)
+                # send GET request
+                u.sendAT('AT+UHTTPC=0,1,"{}","/home/pi/res.html"\r\n'.format(url))
         except:
             print('An exception ocurred')
             pass
