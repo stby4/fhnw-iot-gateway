@@ -57,12 +57,16 @@ class RXTX(object):
                 message = raw_message.rstrip()
 
                 if '' != message and None != message:
-                    #prepare request
-                    url = 'https://api.thingspeak.com/update?api_key={}&field1={}'.format(self.api_key, message)
-                    if self.debug:
-                        print(url)
-                    # send GET request
-                    u.sendAT('AT+UHTTPC=0,1,"{}","/home/pi/res.html"\r\n'.format(url))
+                    try:
+                        val = float(message)
+                        #prepare request
+                        url = 'https://api.thingspeak.com/update?api_key={}&field1={}'.format(self.api_key, message)
+                        if self.debug:
+                            print(url)
+                        # send GET request
+                        u.sendAT('AT+UHTTPC=0,1,"{}","/home/pi/res.html"\r\n'.format(url))
+                    except ValueError:
+                        print(message)
             except Exception, e:
                 if self.debug:
                     print('An exception ocurred', str(e))
