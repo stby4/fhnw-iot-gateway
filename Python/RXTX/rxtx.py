@@ -26,7 +26,7 @@ class RXTX(object):
         '''
         Initializes the ublox lara r2 UMTS module, returns initialised object
         '''
-        u = ublox_lara_r2()
+        u = Ublox_lara_r2()
         u.initialize()
         u.reset_power()
         u.debug = self.debug
