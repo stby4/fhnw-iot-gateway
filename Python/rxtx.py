@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # listens to text on serial, sends it via UMTS to ThingSpeak
 import serial
 import time
