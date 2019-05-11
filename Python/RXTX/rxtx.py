@@ -12,7 +12,6 @@ class RXTX(object):
         r = RXTX(True)
         r.connect()
     '''
-    THING_SPEAK_KEY = 'XLQ16T0SUPGXSNMV'
 
     def __init__(self, debug=False):
         '''
@@ -20,6 +19,7 @@ class RXTX(object):
             Whether to print debug info or not
         '''
         self.debug = debug
+        self.api_key = 'XLQ16T0SUPGXSNMV'
 
 
     def init_lara(self):
@@ -58,12 +58,12 @@ class RXTX(object):
 
                 if '' != message and None != message:
                     #prepare request
-                    url = 'https://api.thingspeak.com/update?api_key={}&field1={}'.format(THING_SPEAK_KEY, message)
+                    url = 'https://api.thingspeak.com/update?api_key={}&field1={}'.format(self.api_key, message)
                     if self.debug:
                         print(url)
                     # send GET request
                     u.sendAT('AT+UHTTPC=0,1,"{}","/home/pi/res.html"\r\n'.format(url))
-            except:
+            except Exception, e:
                 if self.debug:
-                    print('An exception ocurred')
+                    print('An exception ocurred', str(e))
                 pass
