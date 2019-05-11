@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-
-# listens to text on serial, sends it via UMTS to ThingSpeak
 import serial
 import time
 
@@ -8,6 +6,13 @@ from ublox_lara_r2 import *
 
 
 class RXTX(object):
+    '''
+    Listens to text on serial, sends it via UMTS to ThingSpeak.
+    Start like this:
+        from rxtx import RXTX
+        r = RXTX(True)
+        r.connect()
+    '''
     THING_SPEAK_KEY = 'XLQ16T0SUPGXSNMV'
 
     def __init__(self, debug=False):
@@ -40,7 +45,7 @@ class RXTX(object):
         '''
         Connect to the serial, send to ThingSpeak
         '''
-        u = init_lara(debug)
+        u = self.init_lara(debug)
         # Initiate a serial connection
         arduino = serial.Serial('/dev/ttyACM0', 9600)
 
