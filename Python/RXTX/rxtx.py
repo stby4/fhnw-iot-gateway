@@ -8,8 +8,8 @@ class RXTX(object):
     '''
     Listens to text on serial, sends it via UMTS to ThingSpeak.
     Start like this:
-        from rxtx import RXTX
-        r = RXTX(True)
+        from RXTX import *
+        r = RXTX(debug=True)
         r.connect()
     '''
 
