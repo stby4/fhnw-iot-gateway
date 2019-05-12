@@ -29,13 +29,17 @@ class RXTX(object):
         u = Ublox_lara_r2()
         u.initialize()
         u.reset_power()
+        time.sleep(10.)
         u.debug = self.debug
+        if self.debug:
+            u.sendAT("AT+CMEE=2\r\n") # set verbose error codes
 
-        u.sendAT("AT+COPS=0,0") # select carrier
+         # select carrier
         u.sendAT("AT+COPS?\r\n") # show connected carrier
-        u.sendAT('AT+UPSD=0,1,"internet"\r\n') # sets APN
-        u.sendAT('AT+UPSD=0,0,0\r\n') # sets IPv4
+        #u.sendAT('AT+UPSD=0,0,0\r\n') # sets IPv4
+        #u.sendAT('AT+UPSD=0,1,"internet"\r\n') # sets APN
         u.sendAT('AT+UPSDA=0,3\r\n') # activates packet switched data
+        u.sendAT('AT+UHTTP=0') # reset the HTTP profile #0
         
         return u
 
@@ -48,6 +52,9 @@ class RXTX(object):
         # Initiate a serial connection
         arduino = serial.Serial('/dev/ttyACM0', 9600)
 
+        # set lara r2 to api.thingspeak.com
+        u.sendAT('AT+UHTTP=0,1,"api.thingspeak.com"\r\n')
+        u.sendAT('AT+UDNSRN=0,"api.thingspeak.com"\r\n')
         
         while True:
             try:
@@ -60,11 +67,11 @@ class RXTX(object):
                     try:
                         val = float(message)
                         #prepare request
-                        url = 'https://api.thingspeak.com/update?api_key={}&field1={}'.format(self.api_key, message)
+                        url = '/update?api_key={}&field1={}'.format(self.api_key, message)
                         if self.debug:
                             print(url)
                         # send GET request
-                        u.sendAT('AT+UHTTPC=0,1,"{}","/home/pi/res.html"\r\n'.format(url))
+                        u.sendAT('AT+UHTTPC=0,1,"{}","get.ffs"\r\n'.format(url))
                     except ValueError:
                         print(message)
             except Exception, e:
