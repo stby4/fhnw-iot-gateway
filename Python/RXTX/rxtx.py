@@ -39,8 +39,8 @@ class RXTX(object):
         #u.sendAT('AT+UPSD=0,0,0\r\n') # sets IPv4
         #u.sendAT('AT+UPSD=0,1,"internet"\r\n') # sets APN
         u.sendAT('AT+UPSDA=0,3\r\n') # activates packet switched data
-        u.sendAT('AT+UHTTP=0') # reset the HTTP profile #0
-        
+        u.sendAT('AT+UHTTP=0\r\n') # reset the HTTP profile #0
+
         return u
 
 
@@ -72,6 +72,7 @@ class RXTX(object):
                             print(url)
                         # send GET request
                         u.sendAT('AT+UHTTPC=0,1,"{}","get.ffs"\r\n'.format(url))
+                        time.sleep(1)
                     except ValueError:
                         print(message)
             except Exception, e:
