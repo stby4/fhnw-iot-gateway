@@ -31,8 +31,8 @@ class RXTX(object):
         u.reset_power()
         u.debug = self.debug
 
-        # show connected carrier
-        u.sendAT("AT+COPS?\r\n")
+        u.sendAT("AT+COPS=0,0") # select carrier
+        u.sendAT("AT+COPS?\r\n") # show connected carrier
         u.sendAT('AT+UPSD=0,1,"internet"\r\n') # sets APN
         u.sendAT('AT+UPSD=0,0,0\r\n') # sets IPv4
         u.sendAT('AT+UPSDA=0,3\r\n') # activates packet switched data
