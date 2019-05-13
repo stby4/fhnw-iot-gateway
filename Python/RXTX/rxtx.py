@@ -23,7 +23,7 @@ class RXTX(object):
         # self.port = 80
         # self.api_key = 'XLQ16T0SUPGXSNMV'
         self.url = 'dweet.io'
-        self.port - 443
+        self.port = 443
         self.api_key = 'scary-weather'
 
 
