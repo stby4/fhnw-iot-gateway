@@ -19,9 +19,13 @@ class RXTX(object):
             Whether to print debug info or not
         '''
         self.debug = debug
-        # self.url = 'api.thingspeak.com'
         self.port = 80
+
+        # https://thingspeak.com/channels/778930
+        # self.url = 'api.thingspeak.com'
         # self.api_key = 'XLQ16T0SUPGXSNMV'
+
+        # http://dweet.io/follow/scary-weather
         self.url = 'dweet.io'
         self.api_key = 'scary-weather'
 
