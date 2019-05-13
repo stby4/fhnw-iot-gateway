@@ -19,7 +19,12 @@ class RXTX(object):
             Whether to print debug info or not
         '''
         self.debug = debug
-        self.api_key = 'XLQ16T0SUPGXSNMV'
+        # self.url = 'api.thingspeak.com'
+        # self.port = 80
+        # self.api_key = 'XLQ16T0SUPGXSNMV'
+        self.url = 'dweet.io'
+        self.port - 443
+        self.api_key = 'scary-weather'
 
 
     def init_lara(self):
@@ -52,9 +57,9 @@ class RXTX(object):
         # Initiate a serial connection
         arduino = serial.Serial('/dev/ttyACM0', 9600)
 
-        # set lara r2 to api.thingspeak.com
-        u.sendAT('AT+UHTTP=0,1,"api.thingspeak.com"\r\n')
-        u.sendAT('AT+UDNSRN=0,"api.thingspeak.com"\r\n')
+        # set lara r2 to self.url
+        u.sendAT('AT+UHTTP=0,1,"{}"\r\n'.format(self.url))
+        u.sendAT('AT+UDNSRN=0,"{}"\r\n'.format(self.url))
         
         while True:
             try:
@@ -67,12 +72,14 @@ class RXTX(object):
                     try:
                         val = float(message)
                         #prepare request
-                        url = '/update?api_key={}&field1={}'.format(self.api_key, message)
+                        # url = '/update?api_key={}&field1={}'.format(self.api_key, message)
+                        url = '/dweet/for/{}?hr={}'.format(self.api_key, message)
                         if self.debug:
                             print(url)
                         # send GET request
-                        u.sendAT('AT+UHTTPC=0,1,"{}","get.ffs"\r\n'.format(url))
-                        time.sleep(1)
+                        # u.sendAT('AT+UHTTPC=0,1,"{}","get.ffs"\r\n'.format(url))
+                        # send POST request
+                        u.sendAT('AT+UHTTPC=0,4,"{}","post.ffs"\r\n'.format(url))
                     except ValueError:
                         print(message)
             except Exception, e:
