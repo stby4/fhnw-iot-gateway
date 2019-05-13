@@ -58,7 +58,7 @@ class RXTX(object):
 
         # set lara r2 to self.url
         u.sendAT('AT+UHTTP=0,1,"{}"\r\n'.format(self.url)) # set domain
-        u.sendAT('AT+UHTTP=0,5,"{}"\r\n'.format(self.port)) # set port
+        u.sendAT('AT+UHTTP=0,5,{}\r\n'.format(self.port)) # set port
         u.sendAT('AT+UDNSRN=0,"{}"\r\n'.format(self.url))
         
         while True:
@@ -79,7 +79,7 @@ class RXTX(object):
                         # send GET request
                         # u.sendAT('AT+UHTTPC=0,1,"{}","get.ffs"\r\n'.format(url))
                         # send POST request
-                        u.sendAT('AT+UHTTPC=0,4,"{}","post.ffs"\r\n'.format(url))
+                        u.sendAT('AT+UHTTPC=0,1,"{}","get.ffs"\r\n'.format(url))
                     except ValueError:
                         print(message)
             except Exception, e:
