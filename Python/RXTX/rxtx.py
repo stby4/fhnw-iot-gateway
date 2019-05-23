@@ -37,7 +37,7 @@ class RXTX(object):
         u = Ublox_lara_r2()
         u.initialize()
         u.reset_power()
-        time.sleep(10.)
+        time.sleep(20.)
         u.debug = self.debug
         if self.debug:
             u.sendAT("AT+CMEE=2\r\n") # set verbose error codes
