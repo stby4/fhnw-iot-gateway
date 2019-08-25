@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import serial
+import pylink
 import time
 from ublox_lara_r2 import *
 
@@ -59,7 +60,11 @@ class RXTX(object):
         '''
         u = self.init_lara()
         # Initiate a serial connection
-        arduino = serial.Serial('/dev/ttyACM0', 9600)
+        # arduino = serial.Serial('/dev/ttyACM0', 9600)
+        jlink = pylink.JLink()
+        jlink.connect('NRF52840_XXAA')
+        if self.debug:
+            print("JLink connected: ", jlink.target_connected())
 
         # set lara r2 to self.url
         u.sendAT('AT+UHTTP=0,1,"{}"\r\n'.format(self.url)) # set domain
@@ -70,10 +75,12 @@ class RXTX(object):
             try:
                 time.sleep(0.01) # TODO check if necesssary
                 # read message from the Arduino
-                raw_message = str(arduino.readline())
+                # raw_message = str(arduino.readline())
+                raw_message = jlink.rtt_read(0, 1024)
+                if self.debug:
+                    print(raw_message)
+                str_message = str(raw_message)
                 message = raw_message.rstrip()
-
-                print(raw_message)
 
                 if '' != message and None != message:
                     try:
