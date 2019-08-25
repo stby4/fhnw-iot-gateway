@@ -61,7 +61,8 @@ class RXTX(object):
         u = self.init_lara()
         # Initiate a serial connection
         # arduino = serial.Serial('/dev/ttyACM0', 9600)
-        jlink = pylink.JLink()
+        lib = pylink.library.Library('/usr/local/lib/libjlinkarm.so')
+        jlink = pylink.JLink(lib)
         jlink.connect('NRF52840_XXAA')
         if self.debug:
             print("JLink connected: ", jlink.target_connected())
