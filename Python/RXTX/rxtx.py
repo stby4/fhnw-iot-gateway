@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import serial
-import pylink
 import time
 from ublox_lara_r2 import *
+from pylink import GSMLink, SerialLink
 
 
 class RXTX(object):
@@ -61,9 +61,10 @@ class RXTX(object):
         u = self.init_lara()
         # Initiate a serial connection
         # arduino = serial.Serial('/dev/ttyACM0', 9600)
-        lib = pylink.library.Library('/usr/local/lib/libjlinkarm.so')
-        jlink = pylink.JLink(lib)
-        jlink.connect('NRF52840_XXAA')
+        #lib = pylink.library.Library('/usr/local/lib/libjlinkarm.so')
+        #jlink = pylink.JLink(lib)
+        #jlink.connect('NRF52840_XXAA')
+        jlink = GSMLink("683630067", SerialLink("/dev/ttyACM0", 38400))
         if self.debug:
             print("JLink connected: ", jlink.target_connected())
 
@@ -77,7 +78,7 @@ class RXTX(object):
                 time.sleep(0.01) # TODO check if necesssary
                 # read message from the Arduino
                 # raw_message = str(arduino.readline())
-                raw_message = jlink.rtt_read(0, 1024)
+                raw_message = jlink.read()
                 if self.debug:
                     print(raw_message)
                 str_message = str(raw_message)
