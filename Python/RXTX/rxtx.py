@@ -73,6 +73,8 @@ class RXTX(object):
                 raw_message = str(arduino.readline())
                 message = raw_message.rstrip()
 
+                print(raw_message)
+
                 if '' != message and None != message:
                     try:
                         val = float(message)
