@@ -78,7 +78,6 @@ class RXTX(object):
 
                 if '' != message and None != message:
                     try:
-                        val = float(message)
                         #prepare request
                         # url = '/update?api_key={}&field1={}'.format(self.api_key, message)
                         url = '/dweet/quietly/for/{}'.format(self.api_key)
@@ -87,7 +86,14 @@ class RXTX(object):
                         # send GET request
                         # u.sendAT('AT+UHTTPC=0,1,"{}","get.ffs"\r\n'.format(url))
                         # send POST request with data in application/json form
-                        u.sendAT('AT+UHTTPC=0,5,"{}","post.ffs","{}",4\r\n'.format(url, message))
+                        if u.sendAT('AT+UHTTPC=0,5,"{}","post.ffs","{}",4\r\n'.format(url, message), "bla\r\n"):
+			    if self.debug:
+				print("Sending success")
+			    file = open('post.ffs', 'r')
+			else:
+			    if self.debug:
+				print("Sending failed")
+			
                     except ValueError:
                         print(message)
             except Exception, e:
