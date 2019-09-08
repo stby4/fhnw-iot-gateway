@@ -59,16 +59,16 @@ class RXTX(object):
         '''
         Connect to the serial, send to ThingSpeak
         '''
-        u = self.init_lara()
+        self.u = self.init_lara()
 
         # Initiate a serial connection
         self.ser = serial.Serial('/dev/ttyACM0', 115200)
         self._start_receive_handle()
 
         # set lara r2 to self.url
-        u.sendAT('AT+UHTTP=0,1,"{}"\r\n'.format(self.url)) # set domain
-        u.sendAT('AT+UHTTP=0,5,{}\r\n'.format(self.port)) # set port
-        u.sendAT('AT+UDNSRN=0,"{}"\r\n'.format(self.url))
+        self.u.sendAT('AT+UHTTP=0,1,"{}"\r\n'.format(self.url)) # set domain
+        self.u.sendAT('AT+UHTTP=0,5,{}\r\n'.format(self.port)) # set port
+        self.u.sendAT('AT+UDNSRN=0,"{}"\r\n'.format(self.url))
         
         while True:
             try:
@@ -88,9 +88,9 @@ class RXTX(object):
                         if self.debug:
                             print(url)
                         # send GET request
-                        # u.sendAT('AT+UHTTPC=0,1,"{}","get.ffs"\r\n'.format(url))
+                        # self.u.sendAT('AT+UHTTPC=0,1,"{}","get.ffs"\r\n'.format(url))
                         # send POST request with data in application/json form
-                        if u.sendAT('AT+UHTTPC=0,5,"{}","post.ffs","{}",4\r\n'.format(url, message), "OK\r\n") and self.debug:
+                        if self.u.sendAT('AT+UHTTPC=0,5,"{}","post.ffs","{}",4\r\n'.format(url, message), "OK\r\n") and self.debug:
                             print("POST successfully issued")
                     except ValueError:
                         print(message)
