@@ -63,7 +63,6 @@ class RXTX(object):
 
         # Initiate a serial connection
         ser = serial.Serial('/dev/ttyACM0', 115200)
-        self._start_receive_handle()
 
         # set lara r2 to self.url
         u.sendAT('AT+UHTTP=0,1,"{}"\r\n'.format(self.url)) # set domain
