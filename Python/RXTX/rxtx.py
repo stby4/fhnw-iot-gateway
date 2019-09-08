@@ -59,22 +59,22 @@ class RXTX(object):
         '''
         Connect to the serial, send to ThingSpeak
         '''
-        self.u = self.init_lara()
+        u = self.init_lara()
 
         # Initiate a serial connection
-        self.ser = serial.Serial('/dev/ttyACM0', 115200)
+        ser = serial.Serial('/dev/ttyACM0', 115200)
         self._start_receive_handle()
 
         # set lara r2 to self.url
-        self.u.sendAT('AT+UHTTP=0,1,"{}"\r\n'.format(self.url)) # set domain
-        self.u.sendAT('AT+UHTTP=0,5,{}\r\n'.format(self.port)) # set port
-        self.u.sendAT('AT+UDNSRN=0,"{}"\r\n'.format(self.url))
+        u.sendAT('AT+UHTTP=0,1,"{}"\r\n'.format(self.url)) # set domain
+        u.sendAT('AT+UHTTP=0,5,{}\r\n'.format(self.port)) # set port
+        u.sendAT('AT+UDNSRN=0,"{}"\r\n'.format(self.url))
         
         while True:
             try:
                 time.sleep(0.01) # TODO check if necesssary
                 # read message from the serial connection
-                str_message = str(self.ser.readline())
+                str_message = str(ser.readline())
                 message = str_message.rstrip()
 
                 if self.debug:
@@ -88,30 +88,15 @@ class RXTX(object):
                         if self.debug:
                             print(url)
                         # send GET request
-                        # self.u.sendAT('AT+UHTTPC=0,1,"{}","get.ffs"\r\n'.format(url))
+                        # u.sendAT('AT+UHTTPC=0,1,"{}","get.ffs"\r\n'.format(url))
                         # send POST request with data in application/json form
-                        if self.u.sendAT('AT+UHTTPC=0,5,"{}","post.ffs","{}",4\r\n'.format(url, message), "OK\r\n") and self.debug:
-                            print("POST successfully issued")
+                        if u.sendAT('AT+UHTTPC=0,5,"{}","post.ffs","{}",4\r\n'.format(url, message), "UUHTTPCR\r\n"):
+                            print("UUHTTPCR handler")
+                        else:
+                            print("some other handler")
                     except ValueError:
                         print(message)
             except Exception, e:
                 if self.debug:
                     print('An exception ocurred', str(e))
                 pass
-
-
-    def _handle_receive(self):        
-        while True == self.u.keep_receive_alive:                     
-            if self.u.comm.readable():
-                if 'UUHTTPCR' in self.u.response:
-                    self._handle_uuhttpcr(self.u.response)
-
-
-    def _handle_uuhttpcr(self, response):
-        if self.debug:
-            print('UUHTTPCR handler: ', response)
-        self.ser.write(b'hello')
-                
-
-    def _start_receive_handle(self):
-        thread.start_new_thread(self._handle_receive, ())
