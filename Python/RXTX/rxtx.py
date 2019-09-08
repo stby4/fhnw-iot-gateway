@@ -81,13 +81,13 @@ class RXTX(object):
                         val = float(message)
                         #prepare request
                         # url = '/update?api_key={}&field1={}'.format(self.api_key, message)
-                        url = '/dweet/for/{}?hr={}'.format(self.api_key, message)
+                        url = '/dweet/quietly/for/{}'.format(self.api_key)
                         if self.debug:
                             print(url)
                         # send GET request
                         # u.sendAT('AT+UHTTPC=0,1,"{}","get.ffs"\r\n'.format(url))
-                        # send POST request
-                        u.sendAT('AT+UHTTPC=0,1,"{}","get.ffs"\r\n'.format(url))
+                        # send POST request with data in application/json form
+                        u.sendAT('AT+UHTTPC=0,5,"{}","post.ffs","{}",4\r\n'.format(url, message))
                     except ValueError:
                         print(message)
             except Exception, e:
