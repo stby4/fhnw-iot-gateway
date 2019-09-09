@@ -83,7 +83,7 @@ class RXTX(object):
                     try:
                         #prepare request
                         # url = '/update?api_key={}&field1={}'.format(self.api_key, message)
-                        url = '/dweet/quietly/for/{}'.format(self.api_key)
+                        url = '/dweet/for/{}'.format(self.api_key)
                         if self.debug:
                             print(url)
                         # send GET request
@@ -94,7 +94,8 @@ class RXTX(object):
                             while not "UUHTTPCR" in u.response:
                                 time.sleep(0.5)
                             if "0,1,1" in u.response.split("UUHTTPCR")[1]:
-                                ser.write(b'Sent successfully\r\n')
+                                if u.sendAT('AT+URDFILE="post.ffs"\r\n', "OK\r\n"): # get response from FS
+                                    ser.write(b'{}\r\n'.format(u.response))
                             else:
                                 ser.write(b'Error occured while sending\r\n')
                         else:
