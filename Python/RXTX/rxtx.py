@@ -89,10 +89,16 @@ class RXTX(object):
                         # send GET request
                         # u.sendAT('AT+UHTTPC=0,1,"{}","get.ffs"\r\n'.format(url))
                         # send POST request with data in application/json form
-                        if u.sendAT('AT+UHTTPC=0,1,"{}?{}","post.ffs"\r\n'.format(url, message.replace('"', '\'')), "UUHTTPCR: 0,1,1\r\n"):
-                            ser.write(b'Sent successfully\r\n')
+                        if u.sendAT('AT+UHTTPC=0,1,"{}?{}","post.ffs"\r\n'.format(url, message), "UUHTTPCR: 0,1,1\r\n"):
+                            # TODO quit while loop after n attempts
+                            while not "UUHTTPCR" in u.response:
+                                time.sleep(0.5)
+                            if "0,1,1" in u.response.split("UUHTTPCR")[1]:
+                                ser.write(b'Sent successfully\r\n')
+                            else:
+                                ser.write(b'Error occured while sending\r\n')
                         else:
-                            ser.write(b'Error occured while sending\r\n')
+                            ser.write(b'Error occured while trying to send\r\n')
                     except ValueError:
                         print(message)
             except Exception, e:
