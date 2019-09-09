@@ -89,7 +89,7 @@ class RXTX(object):
                         # send GET request
                         # u.sendAT('AT+UHTTPC=0,1,"{}","get.ffs"\r\n'.format(url))
                         # send POST request with data in application/json form
-                        if u.sendAT('AT+UHTTPC=0,5,"{}","post.ffs","{}",4\r\n'.format(url, message), "UUHTTPCR: 0,5,1\r\n"):
+                        if u.sendAT('AT+UHTTPC=0,5,"{}","post.ffs","{}",4\r\n'.format(url, message.replace('"', '\"')), "UUHTTPCR: 0,5,1\r\n"):
                             ser.write(b'Sent successfully\r\n')
                         else:
                             ser.write(b'Error occured while sending\r\n')
