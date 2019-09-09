@@ -89,7 +89,7 @@ class RXTX(object):
                         # send GET request
                         # u.sendAT('AT+UHTTPC=0,1,"{}","get.ffs"\r\n'.format(url))
                         # send POST request with data in application/json form
-                        if u.sendAT('AT+UHTTPC=0,1,"{}?{}","post.ffs"\r\n'.format(url, message), "UUHTTPCR: 0,1,1\r\n"):
+                        if u.sendAT('AT+UHTTPC=0,1,"{}?{}","post.ffs"\r\n'.format(url, message), "OK\r\n"):
                             # TODO quit while loop after n attempts
                             while not "UUHTTPCR" in u.response:
                                 time.sleep(0.5)
